@@ -28,13 +28,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--grpc - springboot
-		<dependency>
-			<groupId>io.github.lognet</groupId>
-			<artifactId>grpc-spring-boot-starter</artifactId>
-			<version>4.7.1</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>net.devh</groupId>
 			<artifactId>grpc-server-spring-boot-starter</artifactId>
@@ -70,6 +63,12 @@
             <version>6.0.53</version>
             <scope>provided</scope>
         </dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.6.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

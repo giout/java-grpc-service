@@ -1,6 +1,7 @@
 package com.grpc.microservice.services;
 
 import com.grpc.microservice.ProductServiceGrpc.ProductServiceImplBase;
+import com.grpc.microservice.db.ProductCrud;
 import com.grpc.microservice.Result;
 import com.grpc.microservice.Product.Builder;
 
@@ -13,37 +14,60 @@ import com.grpc.microservice.ProductDescription;
 import com.grpc.microservice.ProductId;
 import com.grpc.microservice.ProductList;
 
+import java.util.ArrayList;
+
+import com.grpc.microservice.db.ProductType;
+
 @GrpcService
 public class ProductService extends ProductServiceImplBase {
+    ProductCrud crud = new ProductCrud();
 
     @Override
     public void createProduct(ProductDescription request, StreamObserver<Result> responseObserver) {
-        super.createProduct(request, responseObserver);
+        boolean op = crud.insert(request.getDescription());
+
+        Result response = Result.newBuilder()
+                                .setSuccess(op)
+                                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     @Override
     public void deleteProduct(ProductId request, StreamObserver<Result> responseObserver) {
-        super.deleteProduct(request, responseObserver);
+        boolean op = crud.delete(request.getId());
+
+        Result response = Result.newBuilder()
+                                .setSuccess(op)
+                                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     @Override
     public void readProduct(NoParam request, StreamObserver<ProductList> responseObserver) {
-        Builder p1=Product.newBuilder().setDescription("Sopa").setId(1);
+        /* 
+        ArrayList<ProductType> products = crud.select();
+        ProductList.Builder listBuilder = ProductList.newBuilder();
 
-        Builder p2=Product.newBuilder().setDescription("Refresco").setId(2);
-        
-        ProductList response = ProductList.newBuilder()
-                                        .setSuccess(true)                            .addProducts(p1) 
-                                        .addProducts(p2) 
-                                        .build();
+        ProductList products = listBuilder.build();
 
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
+        responseObserver.onNext(products);
+        responseObserver.onCompleted(); */
     }               
 
     @Override
     public void updateProduct(Product request, StreamObserver<Result> responseObserver) {
-        super.updateProduct(request, responseObserver);
+        boolean op = crud.update(request.getId(), request.getDescription());
+
+        Result response = Result.newBuilder()
+                                .setSuccess(op)
+                                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
     
 }
