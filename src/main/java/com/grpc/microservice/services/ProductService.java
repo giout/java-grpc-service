@@ -2,6 +2,7 @@ package com.grpc.microservice.services;
 
 import com.grpc.microservice.ProductServiceGrpc.ProductServiceImplBase;
 import com.grpc.microservice.db.ProductCrud;
+import com.grpc.microservice.types.ProductType;
 import com.grpc.microservice.Result;
 import com.grpc.microservice.Product.Builder;
 
@@ -15,8 +16,6 @@ import com.grpc.microservice.ProductId;
 import com.grpc.microservice.ProductList;
 
 import java.util.ArrayList;
-
-import com.grpc.microservice.db.ProductType;
 
 @GrpcService
 public class ProductService extends ProductServiceImplBase {
@@ -50,13 +49,17 @@ public class ProductService extends ProductServiceImplBase {
     public void readProduct(NoParam request, StreamObserver<ProductList> responseObserver) {
         ArrayList<ProductType> products = crud.select();
         ProductList.Builder listBuilder = ProductList.newBuilder();
-
-        for (ProductType product : products){
-            Builder p = Product.newBuilder().setDescription(product.description).setId(product.id);
-            listBuilder.addProducts(p);
-        }
         
-        listBuilder.setSuccess(true);
+        if (products == null) {
+            listBuilder.setSuccess(false);
+        } else {
+            for (ProductType product : products){
+                Builder p = Product.newBuilder().setDescription(product.description).setId(product.id);
+                listBuilder.addProducts(p);
+            }
+            listBuilder.setSuccess(true);
+        }
+
         ProductList productList = listBuilder.build();
 
         responseObserver.onNext(productList);

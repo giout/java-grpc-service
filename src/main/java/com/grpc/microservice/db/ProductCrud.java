@@ -1,6 +1,9 @@
 package com.grpc.microservice.db;
 
 import java.util.ArrayList;
+
+import com.grpc.microservice.types.ProductType;
+
 import java.sql.*;
 
 public class ProductCrud {

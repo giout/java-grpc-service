@@ -1,4 +1,4 @@
-package com.grpc.microservice.db;
+package com.grpc.microservice.types;
 
 public class ProductType {
     public int id;
