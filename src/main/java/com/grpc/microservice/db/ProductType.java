@@ -1,8 +1,8 @@
 package com.grpc.microservice.db;
 
 public class ProductType {
-    int id;
-    String description;
+    public int id;
+    public String description;
 
     public ProductType(int id, String description) {
         this.id = id;

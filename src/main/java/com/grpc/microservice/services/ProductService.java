@@ -48,14 +48,19 @@ public class ProductService extends ProductServiceImplBase {
 
     @Override
     public void readProduct(NoParam request, StreamObserver<ProductList> responseObserver) {
-        /* 
         ArrayList<ProductType> products = crud.select();
         ProductList.Builder listBuilder = ProductList.newBuilder();
 
-        ProductList products = listBuilder.build();
+        for (ProductType product : products){
+            Builder p = Product.newBuilder().setDescription(product.description).setId(product.id);
+            listBuilder.addProducts(p);
+        }
+        
+        listBuilder.setSuccess(true);
+        ProductList productList = listBuilder.build();
 
-        responseObserver.onNext(products);
-        responseObserver.onCompleted(); */
+        responseObserver.onNext(productList);
+        responseObserver.onCompleted(); 
     }               
 
     @Override
