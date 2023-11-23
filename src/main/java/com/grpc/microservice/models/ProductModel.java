@@ -1,10 +1,10 @@
-package com.grpc.microservice.types;
+package com.grpc.microservice.models;
 
-public class ProductType {
+public class ProductModel {
     public int id;
     public String description;
 
-    public ProductType(int id, String description) {
+    public ProductModel(int id, String description) {
         this.id = id;
         this.description = description;
     }

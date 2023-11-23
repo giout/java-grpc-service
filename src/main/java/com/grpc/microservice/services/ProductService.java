@@ -2,7 +2,7 @@ package com.grpc.microservice.services;
 
 import com.grpc.microservice.ProductServiceGrpc.ProductServiceImplBase;
 import com.grpc.microservice.db.ProductCrud;
-import com.grpc.microservice.types.ProductType;
+import com.grpc.microservice.models.ProductModel;
 import com.grpc.microservice.Result;
 import com.grpc.microservice.Product.Builder;
 
@@ -47,13 +47,13 @@ public class ProductService extends ProductServiceImplBase {
 
     @Override
     public void readProduct(NoParam request, StreamObserver<ProductList> responseObserver) {
-        ArrayList<ProductType> products = crud.select();
+        ArrayList<ProductModel> products = crud.select();
         ProductList.Builder listBuilder = ProductList.newBuilder();
         
         if (products == null) {
             listBuilder.setSuccess(false);
         } else {
-            for (ProductType product : products){
+            for (ProductModel product : products){
                 Builder p = Product.newBuilder().setDescription(product.description).setId(product.id);
                 listBuilder.addProducts(p);
             }

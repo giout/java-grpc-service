@@ -2,7 +2,7 @@ package com.grpc.microservice.db;
 
 import java.util.ArrayList;
 
-import com.grpc.microservice.types.ProductType;
+import com.grpc.microservice.models.ProductModel;
 
 import java.sql.*;
 
@@ -29,15 +29,15 @@ public class ProductCrud {
         }
     }
 
-    public ArrayList<ProductType> select(){
+    public ArrayList<ProductModel> select(){
         try {
             ResultSet list = selectProducts.executeQuery();
-            ArrayList<ProductType> products = new ArrayList<>();
+            ArrayList<ProductModel> products = new ArrayList<>();
 
             while(list.next()){
                 String description = list.getString(1);
                 int id = list.getInt(2);
-                products.add(new ProductType(id, description));
+                products.add(new ProductModel(id, description));
             }
             return products;
         } catch (Exception e) {
